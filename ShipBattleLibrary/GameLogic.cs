@@ -60,5 +60,11 @@ namespace ShipBattleLibrary
 
         //    player.PlayerShots.Add(spot);
         //}
+
+
+        public static bool PlaceShip(PlayerInfoModel player, string location)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

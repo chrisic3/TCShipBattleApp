@@ -14,6 +14,9 @@ namespace ShipBattle
         {
             WelcomeMessage();
 
+            PlayerInfoModel player1 = CreatePlayer("Player 1");
+            PlayerInfoModel player2 = CreatePlayer("Player 2");
+
             Console.ReadLine();
         }
 
@@ -25,9 +28,11 @@ namespace ShipBattle
             Console.WriteLine("Built and modified by Chris Stelly\n");
         }
 
-        private static PlayerInfoModel CreatePlayer()
+        private static PlayerInfoModel CreatePlayer(string playerTitle)
         {
             PlayerInfoModel output = new PlayerInfoModel();
+
+            Console.WriteLine($"Lets set up {playerTitle}.");
 
             // Ask for player name
             output.PlayerName = AskForPlayerName();
@@ -36,9 +41,12 @@ namespace ShipBattle
             GameLogic.InitializeGrid(output);
 
             // Ask for ship locations
-            
-            
+            PlaceShips(output);
+
             // Clear
+            Console.Clear();
+
+            return output;
         }
 
         private static string AskForPlayerName()
@@ -55,8 +63,17 @@ namespace ShipBattle
             do
             {
                 Console.Write($"Where do you want to place ship number " +
-                    $"{ player.PlayerShipLocations.Count + 1 }: ");
+                    $"{player.PlayerShipLocations.Count + 1} (Ex. D4): ");
                 string location = Console.ReadLine();
+
+                bool isValid = GameLogic.PlaceShip(player, location);
+
+                if (!isValid)
+                {
+                    Console.WriteLine("That was an invalid position. Please " +
+                        "try again.");
+                }
             } while (player.PlayerShipLocations.Count < 5); // May make dynamic
         }
+    }
 }
