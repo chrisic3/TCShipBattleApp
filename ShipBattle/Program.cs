@@ -2,6 +2,7 @@
 using ShipBattleLibrary.Models;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -22,30 +23,71 @@ namespace ShipBattle
             do
             {
                 PlayerInfoModel currentPlayer = player1;
+                PlayerInfoModel opponent = player2;
 
-                // Display shot grid for current player
                 DisplayShotGrid(currentPlayer);
 
-                // Ask current player for a shot
-                // Determine if it is a valid shot
-                // Determine shot results
+                RecordPlayerShot(currentPlayer, opponent);
 
-                // Determine if the game is over
+                bool isGameOver = GameLogic.GameOver(opponent);
 
-                // If over, set winner to current player
-
-                // else, swap current player
-                if (currentPlayer == player1)
+                if (isGameOver)
                 {
-                    currentPlayer = player2;
+                    winner = currentPlayer;
                 }
                 else
                 {
-                    currentPlayer = player1;
+                    // Neat trick using Tuples to swap players
+                    (currentPlayer, opponent) = (opponent, currentPlayer);
                 }
             } while (winner == null);
 
+            DisplayWinner(winner);
+
             Console.ReadLine();
+        }
+
+        private static void DisplayWinner(PlayerInfoModel winner)
+        {
+            Console.WriteLine($"Congratulations to {winner.PlayerName} " +
+                $"for winning!");
+            Console.WriteLine($"{winner.PlayerName} used " +
+                $"{GameLogic.GetShotCount(winner)} shots.");
+            Console.WriteLine("Thank you for playing Ship Battle.");
+            Console.WriteLine("Press the \"Enter\" key to close.");
+        }
+
+        // Placed here and not in logic because of Console specific needs
+        private static void RecordPlayerShot(PlayerInfoModel currentPlayer, 
+            PlayerInfoModel opponent)
+        {
+            bool isValidShot = false;
+            string row = string.Empty;
+            int column = 0;
+
+            do
+            {
+                string shot = AskForShot();
+                (row, column) = GameLogic.SplitShotIntoRowAndColumn(shot);
+                isValidShot = GameLogic.ValidateShot(currentPlayer, row, column);
+
+                if (isValidShot == false)
+                {
+                    Console.WriteLine("Invalid selection. Please try again.");
+                }
+            } while (isValidShot == false);
+
+            bool isAHit = GameLogic.IdentifyShotResults(opponent, row, column);
+
+            GameLogic.MarkShotResult(currentPlayer, row, column, isAHit);
+        }
+
+        private static string AskForShot()
+        {
+            Console.Write("Please enter your shot: ");
+            string output = Console.ReadLine();
+
+            return output;
         }
 
         // Placed here and not in logic because of Console specific needs
@@ -98,16 +140,12 @@ namespace ShipBattle
 
             Console.WriteLine($"Lets set up {playerTitle}.");
 
-            // Ask for player name
             output.PlayerName = AskForPlayerName();
 
-            // Load the shot grid
             GameLogic.InitializeGrid(output);
 
-            // Ask for ship locations
             PlaceShips(output);
 
-            // Clear
             Console.Clear();
 
             return output;

@@ -10,6 +10,21 @@ namespace ShipBattleLibrary
 {
     public static class GameLogic
     {
+        public static bool GameOver(PlayerInfoModel opponent)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static int GetShotCount(PlayerInfoModel winner)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static bool IdentifyShotResults(PlayerInfoModel opponent, string row, int column)
+        {
+            throw new NotImplementedException();
+        }
+
         // This is here because it needs no UI
         public static void InitializeGrid(PlayerInfoModel player)
         {
@@ -44,6 +59,11 @@ namespace ShipBattleLibrary
             //}
         }
 
+        public static void MarkShotResult(PlayerInfoModel currentPlayer, string row, int column, bool isAHit)
+        {
+            throw new NotImplementedException();
+        }
+
         /**
          * This is supposed to be done in the Logic step
          */
@@ -63,6 +83,16 @@ namespace ShipBattleLibrary
 
 
         public static bool PlaceShip(PlayerInfoModel player, string location)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static (string row, int column) SplitShotIntoRowAndColumn(string shot)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static bool ValidateShot(PlayerInfoModel currentPlayer, string row, int column)
         {
             throw new NotImplementedException();
         }
