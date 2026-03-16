@@ -17,7 +17,71 @@ namespace ShipBattle
             PlayerInfoModel player1 = CreatePlayer("Player 1");
             PlayerInfoModel player2 = CreatePlayer("Player 2");
 
+            PlayerInfoModel winner = null;
+
+            do
+            {
+                PlayerInfoModel currentPlayer = player1;
+
+                // Display shot grid for current player
+                DisplayShotGrid(currentPlayer);
+
+                // Ask current player for a shot
+                // Determine if it is a valid shot
+                // Determine shot results
+
+                // Determine if the game is over
+
+                // If over, set winner to current player
+
+                // else, swap current player
+                if (currentPlayer == player1)
+                {
+                    currentPlayer = player2;
+                }
+                else
+                {
+                    currentPlayer = player1;
+                }
+            } while (winner == null);
+
             Console.ReadLine();
+        }
+
+        // Placed here and not in logic because of Console specific needs
+        private static void DisplayShotGrid(PlayerInfoModel currentPlayer)
+        {
+            // This will store A, B, etc.
+            string currentRow = currentPlayer.PlayerShots[0].SpotLetter;
+
+            foreach (GridSpotModel gridSpot in currentPlayer.PlayerShots)
+            {
+                // Means row went from A to B etc.
+                if (gridSpot.SpotLetter != currentRow) 
+                {
+                    Console.WriteLine();
+                    currentRow = gridSpot.SpotLetter;
+                }
+
+                if (gridSpot.Status == GridSpotStatus.Empty)
+                {
+                    Console.Write($" {gridSpot.SpotLetter}{gridSpot.SpotNumber} ");
+                }
+                else if (gridSpot.Status == GridSpotStatus.Hit)
+                {
+                    Console.Write(" X  ");
+                }
+                else if (gridSpot.Status == GridSpotStatus.Miss)
+                {
+                    Console.Write(" O  ");
+                }
+                // This is just here to indicate a bug if more statuses are
+                // added and we forget to adjust
+                else
+                {
+                    Console.WriteLine(" ?? ");
+                }
+            }
         }
 
         private static void WelcomeMessage()
