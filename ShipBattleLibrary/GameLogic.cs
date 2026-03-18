@@ -40,8 +40,7 @@ namespace ShipBattleLibrary
             }
         }
 
-        private static void AddGridSpot(PlayerInfoModel player, string letter,
-            int number)
+        private static void AddGridSpot(PlayerInfoModel player, string letter, int number)
         {
             GridSpotModel spot = new GridSpotModel
             {
@@ -61,14 +60,76 @@ namespace ShipBattleLibrary
 
         public static bool PlaceShip(PlayerInfoModel player, string location)
         {
-            // TODO: PlaceShip
-            throw new NotImplementedException();
+            bool output = false;
+
+            (string row, int column) = SplitShotIntoRowAndColumn(location);
+
+            bool isValidSpot = ValidateGridSpot(player, row, column);
+            bool isSpotOpen = ValidateShipLocation(player, row, column);
+
+            if (isValidSpot && isSpotOpen)
+            {
+                GridSpotModel ship = new GridSpotModel
+                {
+                    SpotLetter = row, // TODO: check when running for case
+                    SpotNumber = column,
+                    Status = GridSpotStatus.Ship
+                };
+
+                player.PlayerShipLocations.Add(ship); 
+
+                output = true;
+            }
+
+            return output;
+        }
+
+        private static bool ValidateShipLocation(PlayerInfoModel player, string row, int column)
+        {
+            bool isValidLocation = true;
+
+            foreach (GridSpotModel ship in player.PlayerShipLocations)
+            {
+                if (ship.SpotLetter.Equals(row) && ship.SpotNumber.Equals(column))
+                {
+                    isValidLocation = false;
+                }
+            }
+
+            return isValidLocation;
+        }
+
+        private static bool ValidateGridSpot(PlayerInfoModel player, string row, int column)
+        {
+            bool isValidSpot = false;
+
+            foreach (GridSpotModel spot in player.PlayerShots)
+            {
+                if (spot.SpotLetter.Equals(row) && spot.SpotNumber.Equals(column))
+                {
+                    isValidSpot = true;
+                }
+            }
+
+            return isValidSpot;
         }
 
         public static (string row, int column) SplitShotIntoRowAndColumn(string shot)
         {
-            // TODO: SplitShotIntoRowAndColumn
-            throw new NotImplementedException();
+            string row = string.Empty;
+            int column = 0;
+
+            if (shot.Length != 2)
+            {
+                throw new ArgumentException("That was an invalid shot format.", "shot");
+            }
+
+            char[] shotChars = shot.ToCharArray();
+
+            row = shotChars[0].ToString();
+            column = int.Parse(shotChars[1].ToString());
+
+            return (row, column);
         }
 
         public static bool ValidateShot(PlayerInfoModel currentPlayer, string row, int column)

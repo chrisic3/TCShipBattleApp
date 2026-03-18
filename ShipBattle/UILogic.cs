@@ -12,17 +12,14 @@ namespace ShipBattle
     {
         public static void DisplayWinner(PlayerInfoModel winner)
         {
-            Console.WriteLine($"Congratulations to {winner.PlayerName} " +
-                $"for winning!");
-            Console.WriteLine($"{winner.PlayerName} used " +
-                $"{GameLogic.GetShotCount(winner)} shots.");
+            Console.WriteLine($"Congratulations to {winner.PlayerName} for winning!");
+            Console.WriteLine($"{winner.PlayerName} used {GameLogic.GetShotCount(winner)} shots.");
             Console.WriteLine("Thank you for playing Ship Battle.");
             Console.WriteLine("Press the \"Enter\" key to close.");
         }
 
         // Placed here and not in game logic because of Console specific needs
-        public static void RecordPlayerShot(PlayerInfoModel currentPlayer,
-            PlayerInfoModel opponent)
+        public static void RecordPlayerShot(PlayerInfoModel currentPlayer, PlayerInfoModel opponent)
         {
             bool isValidShot = false;
             string row = string.Empty;
@@ -72,8 +69,7 @@ namespace ShipBattle
                 {
                     Console.Write(" O  ");
                 }
-                // This is just here to indicate a bug if more statuses are
-                // added and we forget to adjust
+                // This is just here to indicate a bug if more statuses are added and we forget to adjust
                 else
                 {
                     Console.WriteLine(" ?? ");
@@ -83,8 +79,7 @@ namespace ShipBattle
 
         public static void WelcomeMessage()
         {
-            Console.WriteLine("Welcome to Ship Battle, based on the game " +
-                "Battleship");
+            Console.WriteLine("Welcome to Ship Battle, based on the game Battleship");
             Console.WriteLine("Designed by Tim Corey");
             Console.WriteLine("Built and modified by Chris Stelly\n");
         }
@@ -127,16 +122,14 @@ namespace ShipBattle
         {
             do
             {
-                Console.Write($"Where do you want to place ship number " +
-                    $"{player.PlayerShipLocations.Count + 1} (Ex. D4): ");
+                Console.Write($"Where do you want to place ship number {player.PlayerShipLocations.Count + 1} (Ex. D4): ");
                 string location = Console.ReadLine();
 
                 bool isValid = GameLogic.PlaceShip(player, location);
 
                 if (!isValid)
                 {
-                    Console.WriteLine("That was an invalid position. Please " +
-                        "try again.");
+                    Console.WriteLine("That was an invalid position. Please try again.");
                 }
             } while (player.PlayerShipLocations.Count < 5); // May make dynamic
         }
