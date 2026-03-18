@@ -52,10 +52,22 @@ namespace ShipBattleLibrary
             player.PlayerShots.Add(spot);
         }
 
-        public static void MarkShotResult(PlayerInfoModel currentPlayer, string row, int column, bool isAHit)
+        public static void MarkShotResult(PlayerInfoModel player, string row, int column, bool isAHit)
         {
-            // TODO: MarkShotResult
-            throw new NotImplementedException();
+            foreach (GridSpotModel spot in player.PlayerShots)
+            {
+                if (spot.SpotLetter.Equals(row) && spot.SpotNumber.Equals(column))
+                {
+                    if (isAHit)
+                    {
+                        spot.Status = GridSpotStatus.Hit;
+                    }
+                    else
+                    {
+                        spot.Status = GridSpotStatus.Miss;
+                    }
+                }
+            }
         }
 
         public static bool PlaceShip(PlayerInfoModel player, string location)
@@ -132,10 +144,22 @@ namespace ShipBattleLibrary
             return (row, column);
         }
 
-        public static bool ValidateShot(PlayerInfoModel currentPlayer, string row, int column)
+        public static bool ValidateShot(PlayerInfoModel player, string row, int column)
         {
-            // TODO: ValidateShot
-            throw new NotImplementedException();
+            bool isValidShot = false;
+
+            foreach (GridSpotModel spot in player.PlayerShots)
+            {
+                if (spot.SpotLetter.Equals(row) && spot.SpotNumber.Equals(column))
+                {
+                    if (spot.Status == GridSpotStatus.Empty)
+                    {
+                        isValidShot = true;
+                    }
+                }
+            }
+            
+            return isValidShot;
         }
 
         public static bool GameOver(PlayerInfoModel player)
@@ -168,10 +192,27 @@ namespace ShipBattleLibrary
             return output;
         }
 
-        public static bool IdentifyShotResults(PlayerInfoModel opponent, string row, int column)
+        public static bool IdentifyShotResults(PlayerInfoModel player, string row, int column)
         {
-            // TODO: IdentifyShotResults
-            throw new NotImplementedException();
+            if (ValidateShipLocation(player, row, column))
+            {
+                return true;
+            }
+
+            return false;
+
+        // TIM'S CODE
+        //    bool isAHit = false;
+
+        //    foreach (GridSpotModel ship in player.PlayerShipLocations)
+        //    {
+        //        if (ship.SpotLetter.Equals(row) && ship.SpotNumber.Equals(column))
+        //        {
+        //            isAHit = true;
+        //        }
+        //    }
+
+        //    return isAHit;
         }
 
     }
