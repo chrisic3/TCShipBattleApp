@@ -1,9 +1,0 @@
-* After the grid displays, we need two empty lines.
-
-* Need to display who is shooting each time.
-
-* What is the result of each shot? One empty line after.
-
-Winner not declared upon winning and game continues.
-
-Duplicate shot needs error message.

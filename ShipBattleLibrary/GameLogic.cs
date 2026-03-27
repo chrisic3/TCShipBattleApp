@@ -156,6 +156,10 @@ namespace ShipBattleLibrary
                     {
                         isValidShot = true;
                     }
+                    else if (spot.Status != GridSpotStatus.Empty)
+                    {
+                        throw new ArgumentException("That spot has already been selected.");
+                    }
                 }
             }
             
