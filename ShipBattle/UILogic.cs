@@ -39,15 +39,29 @@ namespace ShipBattle
                     isValidShot = false;
                 }
 
-                //if (isValidShot == false)
-                //{
-                //    Console.WriteLine("Invalid selection. Please try again.");
-                //}
+                if (isValidShot == false)
+                {
+                    Console.WriteLine("Invalid selection. Please try again.");
+                }
             } while (isValidShot == false);
 
             bool isAHit = GameLogic.IdentifyShotResults(opponent, row, column);
 
             GameLogic.MarkShotResult(currentPlayer, row, column, isAHit);
+
+            DisplayShotResults(row, column, isAHit);
+        }
+
+        private static void DisplayShotResults(string row, int column, bool isAHit)
+        {
+            if (isAHit)
+            {
+                Console.WriteLine($"{row}{column} is a hit!\n");
+            }
+            else
+            {
+                Console.WriteLine($"{row}{column} is a miss.\n");
+            }
         }
 
         // Placed here and not in game logic because of Console specific needs
@@ -124,6 +138,7 @@ namespace ShipBattle
         {
             Console.Write($"{player.PlayerName}, please enter your shot: ");
             string output = Console.ReadLine();
+            Console.WriteLine();
 
             return output;
         }
